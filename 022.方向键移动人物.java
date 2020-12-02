@@ -1,0 +1,107 @@
+import javax.swing.*;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.List;
+
+public class App implements R{
+    JPanel myPanel=new JPanel();
+    JLabel label_txt=new JLabel();
+    JLabel label_background=new JLabel();
+    List<JLabel> boxList=new ArrayList<>();
+    List<JLabel> heartList=new ArrayList<>();
+    List<JLabel> wallList=new ArrayList<>();
+    JLabel label_man=new JLabel();
+//    1.读取地图
+    void loadMap(){
+
+        for (int row = 0; row < R.map_lv1.length; row++) {
+            for (int column = 0; column < R.map_lv1[0].length; column++) {
+               if(R.map_lv1[row][column]==1){
+
+                  JLabel label_wall=new JLabel();
+                  java.net.URL imgURL = App.class.getResource("img/wall.png");
+                  label_wall.setIcon(new ImageIcon(imgURL));
+                  label_wall.setBounds(column*CELL,row*CELL,CELL,CELL);
+                  wallList.add(label_wall);
+                  myPanel.add(label_wall);
+                  myPanel.repaint();
+               }
+               if(R.map_lv1[row][column]==3){
+                   JLabel label_heart=new JLabel();
+                   java.net.URL imgURL = App.class.getResource("img/star.gif");
+                   label_heart.setIcon(new ImageIcon(imgURL));
+                   label_heart.setBounds(column*CELL,row*CELL,CELL,CELL);
+                   heartList.add(label_heart);
+                   myPanel.add(label_heart);
+                   myPanel.repaint();
+               }
+               if(R.map_lv1[row][column]==4){
+                   JLabel label_box=new JLabel();
+                   java.net.URL imgURL = App.class.getResource("img/box.png");
+                   label_box.setIcon(new ImageIcon(imgURL));
+                   label_box.setBounds(column*CELL,row*CELL,CELL,CELL);
+                   boxList.add(label_box);
+                   myPanel.add(label_box);
+                   myPanel.repaint();
+               }
+               if(R.map_lv1[row][column]==5){
+
+                   java.net.URL imgURL = App.class.getResource("img/man.gif");
+                   label_man.setIcon(new ImageIcon(imgURL));
+                   label_man.setBounds(column*CELL,row*CELL,CELL,CELL);
+                   myPanel.add(label_man);
+                   myPanel.repaint();
+               }
+            }
+        }
+        myPanel.add(label_background);
+    }
+    //构造方法
+    public App() {
+        myPanel.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+
+                if (e.getKeyCode()==e.VK_UP){
+                    label_man.setBounds(label_man.getX(),label_man.getY()-CELL,CELL,CELL);
+                }
+                if (e.getKeyCode()==e.VK_DOWN){
+                    label_man.setBounds(label_man.getX(),label_man.getY()+CELL,CELL,CELL);
+                }
+                if (e.getKeyCode()==e.VK_LEFT){
+                    label_man.setBounds(label_man.getX()-CELL,label_man.getY(),CELL,CELL);
+                }
+                if (e.getKeyCode()==e.VK_RIGHT){
+                    label_man.setBounds(label_man.getX()+CELL,label_man.getY(),CELL,CELL);
+                }
+                myPanel.repaint();
+            }
+        });
+    }
+    //显示窗体方法
+    void go(){
+        label_txt.setText("这是一个Label标签。");
+        label_txt.setBounds(0,0,200,30);
+        myPanel.add(label_txt);
+
+        java.net.URL imgURL = App.class.getResource("img/background.jpg");
+        label_background.setIcon(new ImageIcon(imgURL));
+        label_background.setBounds(0,0,1024,768);
+
+
+        myPanel.setLayout(null);
+        JFrame frame = new JFrame("一个小程序");
+        frame.setContentPane(myPanel);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setBounds(100,100,1024,768);
+        //frame.pack();
+        frame.setVisible(true);
+        myPanel.setFocusable(true);
+        loadMap();
+    }
+    public static void main(String[] args) {
+        new App().go();
+    }
+}
