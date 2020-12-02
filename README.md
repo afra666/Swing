@@ -49,6 +49,7 @@ xxxxxxxxxxx.addMouseListener(new MouseAdapter() {
 ```
 ###  键盘监听器
 ```
+myPanel.setFocusable(true);//键盘监听必须添加获取焦点
 xxxxxxxxx.addKeyListener(new KeyAdapter() {
   @Override
   public void keyPressed(KeyEvent e) {
